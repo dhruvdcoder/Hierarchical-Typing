@@ -429,14 +429,15 @@ if __name__ == "__main__":
     config_obj = Config_MIL(run_dir, opts)
 
     assert(config_obj.mode in ['typing', 'linking'])
+    # D: we will work with only typing
 
     # === load in all the auxiliary data
 
-    type_dict = joblib.load(config_obj.type_dict)
-    entity_type_dict = joblib.load(config_obj.entity_type_dict)
-    entity_dict  = joblib.load(config_obj.entity_dict)
+    type_dict = joblib.load(config_obj.type_dict) # type_name: type_id
+    entity_type_dict = joblib.load(config_obj.entity_type_dict) # entity_name: list of types (ids) it belongs to.
+    entity_dict  = joblib.load(config_obj.entity_dict)# entity_name: entity_id
 
-    typenet_matrix = joblib.load(config_obj.typenet_matrix)
+    typenet_matrix = joblib.load(config_obj.typenet_matrix) # adjacency matrix of typenet graph
 
 
     type_dict, entity_type_dict, fb_type_size = filter_fb_types(type_dict, entity_type_dict)
@@ -492,9 +493,22 @@ if __name__ == "__main__":
 
     # === Define the training and dev data
 
-    train_bags = joblib.load(config_obj.bag_file)
-    dev_bags   = joblib.load(config_obj.bag_file)
-    test_bags  = joblib.load(config_obj.bag_file)
+    # D: 
+    # this is the text sentences for each entity
+    # these are giant! Like 6GB on disk. I don't know why 3 copies are being loaded. 
+    train_bags = joblib.load(config_obj.bag_file) # entity_name: list of sentences (untokenized)
+                                                  # to see an example do: train_bags['Anna_Hazare'][0]
+                                                  # output: 'title:Jail Bharo Andolan\tsfm_slug_Anna_Hazare\te_slug_Anna_Hazare_@en\tIn 
+                                                  # the protests for Indian freedom movement Jail Bharo Andolan was used many times by protesters including 
+                                                  # <em> Mahatma Gandhi </em>\tSocial activist <em> <target> Anna_Hazare </target> </em> has said the Jail 
+                                                  # Bharo Andolan will begin on April 00 if the government fails the <em> Jan Lokpal Bill </em>\tThe 74-year-old 
+                                                  # leader who was on a fast-unto-death at the Jantar Mantar in New Delhi from April 0 0000 told the media that 
+                                                  # people of India would take to the streets .\n'
+                                                  # NOTICE the <target> entity </target> sequence which marks the surface mention of the entity.
+    #dev_bags   = joblib.load(config_obj.bag_file)
+    #test_bags  = joblib.load(config_obj.bag_file)
+    dev_bags = train_bags
+    test_bags = train_bags
 
     train_entities = read_entities(config_obj.train_file, config_obj.take_frac)
     dev_entities   = read_entities(config_obj.dev_file)
