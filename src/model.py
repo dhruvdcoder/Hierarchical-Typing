@@ -136,7 +136,7 @@ class MentionEncoderCNNWithPosition(nn.Module):
         if self.config.features:
             self.feature_embeddings = nn.Embedding(self.feature_size, self.feature_dim)    
             rep_dim = 2*self.config.embedding_dim + self.feature_dim
-        else
+        else:
             rep_dim = 2*self.config.embedding_dim
 
         self.affine2 = nn.Linear(rep_dim, self.config.embedding_dim)
@@ -161,7 +161,7 @@ class MentionEncoderCNNWithPosition(nn.Module):
             context_representation = torch.cat((sentence_embedding, mention_representation, feature_data_embedding), dim = -1) #(N, rep_dim)
 
         else:
-            context_representation = torch.cat((sentence_embedding, mention_representation), dim = -1). #(N, rep_dim)
+            context_representation = torch.cat((sentence_embedding, mention_representation), dim = -1) #(N, rep_dim)
 
 
         context_representation = self.tanh(self.affine2(context_representation))
@@ -193,7 +193,7 @@ class MentionEncoderCNN(nn.Module):
         if self.config.features:
             self.feature_embeddings = nn.Embedding(self.feature_size, self.feature_dim)    
             rep_dim = 2*self.config.embedding_dim + self.feature_dim
-        else
+        else:
             rep_dim = 2*self.config.embedding_dim
 
         self.affine2 = nn.Linear(rep_dim, self.config.embedding_dim)

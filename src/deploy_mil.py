@@ -115,7 +115,7 @@ def get_tensors_from_minibatch(minibatch, type_indexer, type_indexer_struct, typ
 
         all_tensors['priors'], _ = pad_sequences(minibatch.data['priors'], 0.0, torch.FloatTensor, config.gpu) #(batch_size*bag_size, 100)
 
-
+    import pdb; pdb.set_trace()
     # == feed to mention typer and get scores ==
     sentences , _ = pad_sequences(minibatch.data['context'], PAD, torch.LongTensor, config.gpu)
     position_embeddings, _ = pad_sequences(minibatch.data['position_embeddings'], PAD, torch.LongTensor, config.gpu, pos = True)
@@ -380,6 +380,7 @@ def get_params():
     parser.add_argument('-bilinear_l2', action = "store", default = 0.0, dest = "bilinear_l2", type=float)
     parser.add_argument('-parent_sample_size', action = "store", default = 100, dest="parent_sample_size", type=int)
     parser.add_argument('-complex', action = "store", default = 0, dest = "complex", type=int)
+    parser.add_argument('-features', default=0, type=int)
 
 
     parser.add_argument('-base_dir', action="store", default="/iesl/canvas/smurty/epiKB", type=str)
@@ -457,7 +458,7 @@ if __name__ == "__main__":
     logger.info("\nNumber of fb types in vocab: %d\n" %config_obj.fb_type_size)
 
     pretrained_embeddings = get_trimmed_glove_vectors(config_obj.embedding_file)
-
+    import pdb;pdb.set_trace()
     #=== now load in crosswikis
     if config_obj.linker_weight > 0:
         time_st = time.time() 

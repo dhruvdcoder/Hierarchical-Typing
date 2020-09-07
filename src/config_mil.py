@@ -3,7 +3,7 @@ import os
 class Config_MIL:
     ''' Neural net hyperparameters '''
 
-    gpu=True
+    gpu=False
     mention_rep = True
 
 
@@ -47,6 +47,7 @@ class Config_MIL:
         self.take_frac = args.take_frac
         self.use_transitive = args.use_transitive
         self.base_dir = args.base_dir
+        self.features = args.features
         base_dir = args.base_dir
 
         # no support for struct weight with figer
@@ -61,8 +62,8 @@ class Config_MIL:
             self.test_bag_size = 20
             
 
-            self.type_dict        = "%s/types_annotated/TypeNet_type2idx.joblib" % base_dir
-            self.typenet_matrix   = "%s/types_annotated/TypeNet_transitive_closure.joblib" % base_dir
+            self.type_dict        = "%s/MIL_data/TypeNet_type2idx.joblib" % base_dir
+            self.typenet_matrix   = "%s/MIL_data/TypeNet_transitive_closure.joblib" % base_dir
 
             self.train_file = "%s/MIL_data/train.entities"%base_dir
             self.dev_file   = "%s/MIL_data/dev.entities" % base_dir
